@@ -1,0 +1,18 @@
+# 编译目录（CMake 构建目录）
+cmake-build-*/
+out/
+build/
+
+# IDE 配置（Rider/VS）
+.idea/
+.vscode/
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.suo
+
+# 临时文件
+*.log
+*.swp
+.DS_Store  # macOS 系统文件
+
