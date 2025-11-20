@@ -2,6 +2,7 @@
 #include <memory>
 #include <chrono>
 
+struct GLFWwindow;
 namespace eng 
 {
     class Application;//向前声明
@@ -9,7 +10,7 @@ namespace eng
     class Engine
     {
     public:
-        bool Init();
+        bool Init(int width,int height);
         void Run();
         void Destory();
 
@@ -18,5 +19,6 @@ namespace eng
     private:
         std::unique_ptr<Application>m_application;
         std::chrono::steady_clock::time_point m_lastTimePoint;
+        GLFWwindow* m_window = nullptr;
     };
 }

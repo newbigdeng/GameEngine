@@ -5,6 +5,7 @@ build/
 
 # IDE 配置（Rider/VS）
 .idea/
+.vs/
 .vscode/
 *.sln
 *.vcxproj
@@ -16,3 +17,4 @@ build/
 *.swp
 .DS_Store  # macOS 系统文件
 
+engine/ThirdParty/

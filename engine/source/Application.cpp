@@ -1,7 +1,7 @@
 ﻿#include "Application.h"
 namespace eng
 {
-	bool Application::SetNeedsToBeClosed(bool value)
+	void Application::SetNeedsToBeClosed(bool value)
 	{
 		m_needsToBeClosed = value;
 	}
