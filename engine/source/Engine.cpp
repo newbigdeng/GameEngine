@@ -6,6 +6,24 @@
 
 namespace eng
 {
+	void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int modes)
+	{
+		auto& inputManager = eng::Engine::GetInstance().GetInputManager();
+		if (action == GLFW_PRESS)
+		{
+			inputManager.SetKeyPressed(key, true);
+		}
+		else if (action == GLFW_RELEASE)
+		{
+			inputManager.SetKeyPressed(key, false);
+		}
+	}
+	Engine& Engine::GetInstance()
+	{
+		static Engine instance;
+		return instance;
+	}
+
 	bool Engine::Init(int width, int height)
 	{
 		if (!m_application)
@@ -31,7 +49,7 @@ namespace eng
 			return -1;
 		}
 		glfwMakeContextCurrent(m_window);
-		//glfwSetKeyCallback(window, KeyCallback);
+		glfwSetKeyCallback(m_window,KeyCallback);
 
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 			return -1;
@@ -78,5 +96,13 @@ namespace eng
 	Application* Engine::GetApplication()
 	{
 		return m_application.get();
+	}
+	inputManager& Engine::GetInputManager()
+	{
+		return m_inputManager;
+	}
+	GraphicsAPI& Engine::GetGraphicsAPI()
+	{
+		return m_graphicsAPI;
 	}
 }
