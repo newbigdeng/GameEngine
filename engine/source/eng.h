@@ -15,3 +15,5 @@
 #include "render\Mesh.h"
 
 #include "graphics\VertexLayout.h"
+
+#include "render\RenderQueue.h"

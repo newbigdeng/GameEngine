@@ -27,7 +27,7 @@ bool Game::Init()
 		
 		void main()
 		{
-			FragColor = vec4(vColor,1.0f)*uColor;
+			FragColor = vec4(vColor,1.0f);
 		}
 	)";
 
@@ -67,6 +67,13 @@ void Game::Update(float deltaTime)
 	{
 		std::cout << "[W] is Pressed" << std::endl;
 	}
+
+	eng::RenderCommand command;
+	command.material = &m_Material;
+	command.mesh = m_mesh.get();
+	
+	auto& renderQueue = eng::Engine::GetInstance().GetRenderQueue();
+	renderQueue.Submit(command);
 }
 
 void Game::Destory()

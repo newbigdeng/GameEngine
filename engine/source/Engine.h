@@ -3,6 +3,7 @@
 #include <chrono>
 #include "input\inputManager.h"
 #include "graphics\GraphicsAPI.h"
+#include "render\RenderQueue.h"
 
 struct GLFWwindow;
 namespace eng 
@@ -28,11 +29,13 @@ namespace eng
         Application* GetApplication();
         inputManager& GetInputManager();
         GraphicsAPI& GetGraphicsAPI();
+        RenderQueue& GetRenderQueue();
     private:
         std::unique_ptr<Application>m_application;
         std::chrono::steady_clock::time_point m_lastTimePoint;
         GLFWwindow* m_window = nullptr;
         inputManager m_inputManager;
         GraphicsAPI m_graphicsAPI;
+        RenderQueue m_renderQueue;
     };
 }
