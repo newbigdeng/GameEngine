@@ -65,8 +65,23 @@ void Game::Update(float deltaTime)
 	auto& input = eng::Engine::GetInstance().GetInputManager();
 	if (input.IsKeyPressed(GLFW_KEY_W))
 	{
-		std::cout << "[W] is Pressed" << std::endl;
+		offset_Y += 0.001f;
 	}
+	if (input.IsKeyPressed(GLFW_KEY_A))
+	{
+		offset_X -= 0.001f;
+	}
+	if (input.IsKeyPressed(GLFW_KEY_S))
+	{
+		offset_Y -= 0.001f;
+	}
+	if (input.IsKeyPressed(GLFW_KEY_D))
+	{
+		offset_X += 0.001f;
+	}
+	m_Material.SetParam("uOffset", offset_X, offset_Y);
+
+
 
 	eng::RenderCommand command;
 	command.material = &m_Material;

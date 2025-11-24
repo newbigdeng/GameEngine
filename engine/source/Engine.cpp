@@ -49,7 +49,7 @@ namespace eng
 			return -1;
 		}
 		glfwMakeContextCurrent(m_window);
-		glfwSetKeyCallback(m_window,KeyCallback);
+		glfwSetKeyCallback(m_window,KeyCallback);//按键回调
 
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 			return -1;
