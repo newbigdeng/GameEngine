@@ -20,6 +20,10 @@ set(PROJECT_SOURCE_FILES
     source/render/Mesh.cpp
     source/render/RenderQueue.h
     source/render/RenderQueue.cpp
+    source/scene/GameObject.h
+    source/scene/GameObject.cpp
+    source/scene/scene.h
+    source/scene/scene.cpp
 )
 
 include_directories(source)
