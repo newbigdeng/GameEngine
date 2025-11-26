@@ -10,8 +10,6 @@ public:
 	void Destory() override;
 
 private:
-	eng::Material m_Material;
-	std::unique_ptr<eng::Mesh> m_mesh;
-	float offset_X = 0.f;
-	float offset_Y = 0.f;
+
+	eng::Scene m_scene;
 };

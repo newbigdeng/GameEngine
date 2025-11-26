@@ -18,7 +18,7 @@ namespace eng
 		template<typename T,typename = typename std::enable_if_t<std::is_base_of_v<GameObject,T>>>
 		T* CreateObject(const std::string& name, GameObject* parent = nullptr)
 		{
-			auto obj = new GameObject();
+			auto obj = new T();
 			obj->SetName(name);
 			SetParent(obj, parent);
 			return obj;

@@ -149,6 +149,5 @@ namespace eng
 		obj->SetName(name);
 		SetParent(obj, parent);
 		return obj;
-
 	}
 }
