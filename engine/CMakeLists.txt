@@ -33,6 +33,9 @@ add_library(${PROJECT_NAME} ${PROJECT_SOURCE_FILES})
 set(GLFW_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/GLFW/include")
 set(GLFW_LIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/GLFW/lib")
 
+# 添加glm库
+set(GLM_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/GLM")
+
 link_directories(${GLFW_LIB_DIR})# 链接的路径
 # set(GLFW_LIB "glfw3.lib")
 set(GLFW_LIB_FULL_PATH "${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/GLFW/lib/glfw3.lib")
@@ -45,6 +48,9 @@ target_link_libraries(${PROJECT_NAME}
     PRIVATE ${GLFW_LIB_FULL_PATH}
 )
 
+target_include_directories(${PROJECT_NAME}
+    PUBLIC "${GLM_INCLUDE_DIR}"
+)
 
 if(WIN32)
     # Windows下GLFW通常依赖opengl32.lib

@@ -1,5 +1,5 @@
 #include "ShaderProgram.h"
-
+#include <glm\gtc\type_ptr.hpp>
 
 namespace eng
 {
@@ -26,14 +26,19 @@ namespace eng
 		return loc;
 	}
 
-	void eng::ShaderProgram::SetUniform(const std::string name, float value)
+	void eng::ShaderProgram::SetUniform(const std::string& name, float value)
 	{
 		auto loc = GetUniformLocation(name);
 		glUniform1f(loc, value);
 	}
-	void ShaderProgram::SetUniform(const std::string name, float v0, float v1)
+	void ShaderProgram::SetUniform(const std::string& name, float v0, float v1)
 	{
 		auto loc = GetUniformLocation(name);
 		glUniform2f(loc, v0, v1);
+	}
+	void ShaderProgram::SetUniform(const std::string& name, const glm::mat4& mat)
+	{
+		auto loc = GetUniformLocation(name);
+		glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(mat));
 	}
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <glm\mat4x4.hpp>
 
 namespace eng
 {
@@ -10,6 +11,7 @@ namespace eng
 	{
 		Mesh* mesh = nullptr;
 		Material* material = nullptr;
+		glm::mat4 modelMatrix;
 	};
 
 	class RenderQueue
