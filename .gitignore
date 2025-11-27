@@ -17,4 +17,3 @@ build/
 *.swp
 .DS_Store  # macOS 系统文件
 
-engine/ThirdParty/
