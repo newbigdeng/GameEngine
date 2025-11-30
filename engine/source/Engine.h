@@ -4,6 +4,7 @@
 #include "input\inputManager.h"
 #include "graphics\GraphicsAPI.h"
 #include "render\RenderQueue.h"
+#include "scene\Scene.h"
 
 struct GLFWwindow;
 namespace eng 
@@ -30,6 +31,9 @@ namespace eng
         inputManager& GetInputManager();
         GraphicsAPI& GetGraphicsAPI();
         RenderQueue& GetRenderQueue();
+
+        void SetScene(Scene* scene);
+        Scene* GetScene();
     private:
         std::unique_ptr<Application>m_application;
         std::chrono::steady_clock::time_point m_lastTimePoint;
@@ -37,5 +41,6 @@ namespace eng
         inputManager m_inputManager;
         GraphicsAPI m_graphicsAPI;
         RenderQueue m_renderQueue;
+        std::unique_ptr<Scene>m_currentScene;
     };
 }

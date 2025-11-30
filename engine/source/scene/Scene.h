@@ -16,7 +16,7 @@ namespace eng
 		GameObject* CreateObject(const std::string& name, GameObject* parent = nullptr);
 
 		template<typename T,typename = typename std::enable_if_t<std::is_base_of_v<GameObject,T>>>
-		T* CreateObject(const std::string& name, GameObject* parent = nullptr)
+		T* CreateObject(const std::string& name, GameObject* parent = nullptr)//用于创建子类
 		{
 			auto obj = new T();
 			obj->SetName(name);
@@ -26,7 +26,10 @@ namespace eng
 
 		bool SetParent(GameObject* obj, GameObject* parent);
 
+		void SetMainCamera(GameObject* camera);
+		GameObject* GetMainCamera();
 	private:
 		std::vector<std::unique_ptr<GameObject>> m_objects;
+		GameObject* m_mainCamera = nullptr;
 	};
 }
