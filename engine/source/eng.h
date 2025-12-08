@@ -14,3 +14,6 @@
 #include "scene\Component.h"
 #include "scene\Components\MeshComponent.h"
 #include "scene\Components\CameraComponent.h"
+#include "scene\Components\PlayerControllerComponent.h"
+#include "io/FileSystem.h"
+#include "graphics\Texture.h"

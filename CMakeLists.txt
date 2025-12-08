@@ -1,4 +1,6 @@
 ﻿cmake_minimum_required(VERSION 3.10)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 project(GameEngineProject)
 
@@ -15,6 +17,12 @@ add_executable(${PROJECT_NAME} ${PROJECT_SOURCE_FILES} "source/Game.h")
 add_subdirectory(Engine "${CMAKE_CURRENT_BINARY_DIR}/engine_build")
 include_directories(engine/source)
 
+include_directories(engine/ThirdParty/stb_image)
+
+include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_BINARY_DIR})
+
 target_link_libraries(${PROJECT_NAME}
     Engine
 )
+
+

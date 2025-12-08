@@ -20,6 +20,7 @@ namespace eng
 			shaderProgram->SetUniform("uView", cameradata.viewMatrix);
 			shaderProgram->SetUniform("uProjection", cameradata.projectionMatrix);
 			graphicsAPI.BindMesh(command.mesh);
+
 			graphicsAPI.DrawMesh(command.mesh);
 		}
 

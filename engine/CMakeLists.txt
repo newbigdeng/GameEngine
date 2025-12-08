@@ -1,6 +1,15 @@
 ﻿cmake_minimum_required(VERSION 3.10)
 
+
 project(Engine)
+
+set(ASSETS_DIR "${CMAKE_SOURCE_DIR}/assets")
+
+include_directories(${PROJECT_BINARY_DIR})
+configure_file(
+    ${PROJECT_SOURCE_DIR}/config.h.in
+    ${PROJECT_BINARY_DIR}/config.h
+)
 
 set(PROJECT_SOURCE_FILES
     source/Engine.h
@@ -30,6 +39,12 @@ set(PROJECT_SOURCE_FILES
     source/scene/components/MeshComponent.cpp
     source/scene/components/CameraComponent.h
     source/scene/components/CameraComponent.cpp
+    source/scene/components/PlayerControllerComponent.h
+    source/scene/components/PlayerControllerComponent.cpp
+    source/io/FileSystem.h
+    source/io/FileSystem.cpp
+    source/graphics/Texture.h
+    source/graphics/Texture.cpp
 )
 
 include_directories(source)
@@ -46,6 +61,7 @@ link_directories(${GLFW_LIB_DIR})# 链接的路径
 # set(GLFW_LIB "glfw3.lib")
 set(GLFW_LIB_FULL_PATH "${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/GLFW/lib/glfw3.lib")
 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/stb_image)
 
 target_include_directories(${PROJECT_NAME} 
     PUBLIC "${GLFW_INCLUDE_DIR}"
@@ -56,6 +72,12 @@ target_link_libraries(${PROJECT_NAME}
 
 target_include_directories(${PROJECT_NAME}
     PUBLIC "${GLM_INCLUDE_DIR}"
+)
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${ASSETS_DIR}
+    ${CMAKE_BINARY_DIR}/assets
 )
 
 if(WIN32)

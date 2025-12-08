@@ -6,9 +6,16 @@
 #include "render\Material.h"
 #include <iostream>
 #include "render\Mesh.h"
+//#include "glad\glad.h"
 
 namespace eng
 {
+	bool GraphicsAPI::Init()
+	{
+		glEnable(GL_DEPTH_TEST);//…Ó∂»≤‚ ‘
+		return true;
+	}
+
 	std::shared_ptr<ShaderProgram> GraphicsAPI::CreateShaderProgram(const std::string vertexSource, const std::string fragSource)
 	{
 		GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -86,7 +93,7 @@ namespace eng
 
 	void GraphicsAPI::ClearBuffers()
 	{
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
 

@@ -4,6 +4,7 @@
 #include <glm\mat4x4.hpp>
 namespace eng
 {
+	class Texture;
 	class ShaderProgram
 	{
 	public:
@@ -19,8 +20,10 @@ namespace eng
 		void SetUniform(const std::string& name, float value);
 		void SetUniform(const std::string& name, float v0, float v1);
 		void SetUniform(const std::string& name, const glm::mat4& mat);
+		void SetTexture(const std::string& name, Texture* texture);
 	private:
 		std::unordered_map<std::string, GLint>m_uniformLocationCache;
 		GLuint m_ShaderProgramID = 0;
+		int m_currentTextureUnit = 0;
 	};
 }

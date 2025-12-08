@@ -5,8 +5,10 @@
 #include "graphics\GraphicsAPI.h"
 #include "render\RenderQueue.h"
 #include "scene\Scene.h"
+#include "io\FileSystem.h"
 
 struct GLFWwindow;
+
 namespace eng 
 {
     class Application;//向前声明
@@ -31,6 +33,7 @@ namespace eng
         inputManager& GetInputManager();
         GraphicsAPI& GetGraphicsAPI();
         RenderQueue& GetRenderQueue();
+        FileSystem& GetFileSystem();
 
         void SetScene(Scene* scene);
         Scene* GetScene();
@@ -41,6 +44,7 @@ namespace eng
         inputManager m_inputManager;
         GraphicsAPI m_graphicsAPI;
         RenderQueue m_renderQueue;
+        FileSystem m_fileSystem;
         std::unique_ptr<Scene>m_currentScene;
     };
 }

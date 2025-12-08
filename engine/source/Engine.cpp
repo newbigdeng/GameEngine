@@ -21,6 +21,28 @@ namespace eng
 			inputManager.SetKeyPressed(key, false);
 		}
 	}
+
+	void MouseButtomCallBack(GLFWwindow* window, int buttom, int action, int mods)
+	{
+		auto& inputManager = eng::Engine::GetInstance().GetInputManager();
+		if (action == GLFW_PRESS)
+		{
+			inputManager.SetMouseButtonPressed(buttom, true);
+		}
+		else if (action == GLFW_RELEASE)
+		{
+			inputManager.SetMouseButtonPressed(buttom, false);
+		}
+	}
+	void CurosrPositionCallBack(GLFWwindow* window, double xpos, double ypos)
+	{
+		auto& inputManager = eng::Engine::GetInstance().GetInputManager();
+		inputManager.SetMousePositionOld(inputManager.GetMousePositionCurrent());
+
+		glm::vec2 currentPos(static_cast<float>(xpos), static_cast<float>(ypos));
+		inputManager.SetMousePositionCurrent(currentPos);
+	}
+
 	Engine& Engine::GetInstance()
 	{
 		static Engine instance;
@@ -52,12 +74,15 @@ namespace eng
 			return -1;
 		}
 		glfwMakeContextCurrent(m_window);
+
 		glfwSetKeyCallback(m_window,KeyCallback);//按键回调
+		glfwSetMouseButtonCallback(m_window, MouseButtomCallBack);
+		glfwSetCursorPosCallback(m_window, CurosrPositionCallBack);
 
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 			return -1;
 
-
+		m_graphicsAPI.Init();
 		return m_application->Init();
 	}
 
@@ -105,6 +130,8 @@ namespace eng
 			m_renderQueue.Draw(m_graphicsAPI,cameraData);
 
 			glfwSwapBuffers(m_window);
+
+			m_inputManager.SetMousePositionOld(m_inputManager.GetMousePositionCurrent());
 		}
 	}
 	void Engine::Destory()
@@ -135,6 +162,10 @@ namespace eng
 	RenderQueue& Engine::GetRenderQueue()
 	{
 		return m_renderQueue;
+	}
+	FileSystem& Engine::GetFileSystem()
+	{
+		return m_fileSystem;
 	}
 	void Engine::SetScene(Scene* scene)
 	{

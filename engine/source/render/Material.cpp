@@ -1,6 +1,7 @@
 #include "Material.h"
 
 #include "graphics\ShaderProgram.h"
+#include "graphics\Texture.h"
 
 namespace eng
 {
@@ -23,6 +24,11 @@ namespace eng
 		m_float2Params[name] = std::make_pair(v0, v1);
 	}
 
+	void Material::SetParam(const std::string& name, std::shared_ptr<Texture>& texture)
+	{
+		m_textures[name] = texture;
+	}
+
 	void Material::Bind()
 	{
 		if (!m_ShaderProgram)
@@ -38,6 +44,10 @@ namespace eng
 		for (const auto& param : m_float2Params)
 		{
 			m_ShaderProgram->SetUniform(param.first, param.second.first,param.second.second);
+		}
+		for (const auto& param : m_textures)
+		{
+			m_ShaderProgram->SetTexture(param.first, param.second.get());
 		}
 	}
 }
