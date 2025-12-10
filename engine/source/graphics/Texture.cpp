@@ -1,20 +1,16 @@
 #include "Texture.h"
+#include "Engine.h"
+
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>
 
 namespace eng
 {
 	Texture::Texture(int width, int height, int numChannels, unsigned char* data)
 		:m_width(width),m_height(height),m_numChannels(numChannels)
 	{
-		glGenTextures(1, &m_textureID);
-		glBindTexture(GL_TEXTURE_2D, m_textureID);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		Init(width,height,numChannels,data);
 
-		glGenerateMipmap(GL_TEXTURE_2D);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);//环绕，重复
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);//环绕，重复
-
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);//缩小时
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);//放大时
 	}
 
 	Texture::~Texture()
@@ -28,5 +24,39 @@ namespace eng
 	GLuint Texture::GetID() const
 	{
 		return m_textureID;
+	}
+
+	void Texture::Init(int width, int height, int numChannels, unsigned char* data)
+	{
+		glGenTextures(1, &m_textureID);
+		glBindTexture(GL_TEXTURE_2D, m_textureID);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+
+		glGenerateMipmap(GL_TEXTURE_2D);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);//环绕，重复
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);//环绕，重复
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);//缩小时
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);//放大时
+	}
+
+	std::shared_ptr<Texture> Texture::Load(const std::string& path)
+	{
+		auto& fs = eng::Engine::GetInstance().GetFileSystem();
+		auto fullpath = fs.GetAssetsFolder() / path;
+		int width, height, channels;
+
+		if (!std::filesystem::exists(fullpath))
+		{
+			return nullptr;
+		}
+		std::shared_ptr<Texture> result;
+		unsigned char* data = stbi_load(fullpath.string().c_str(), &width, &height, &channels, 0);
+		if (data)
+		{
+			result = std::make_shared<eng::Texture>(width, height, channels, data);
+			stbi_image_free(data);
+		}
+		return result;
 	}
 }

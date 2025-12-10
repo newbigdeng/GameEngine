@@ -18,7 +18,7 @@ namespace eng
 		void SetParam(const std::string& name, std::shared_ptr<Texture>& texture);
 		void Bind();
 
-
+		static std::shared_ptr<Material> Load(const std::string& path);
 	private:
 		std::shared_ptr<ShaderProgram> m_ShaderProgram;
 		std::unordered_map<std::string, float> m_floatParams;

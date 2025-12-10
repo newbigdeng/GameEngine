@@ -62,6 +62,7 @@ link_directories(${GLFW_LIB_DIR})# 链接的路径
 set(GLFW_LIB_FULL_PATH "${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/GLFW/lib/glfw3.lib")
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/stb_image)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/json)
 
 target_include_directories(${PROJECT_NAME} 
     PUBLIC "${GLFW_INCLUDE_DIR}"

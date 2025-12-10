@@ -2,23 +2,15 @@
 #include "TestObject.h"
 #include <iostream>
 
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
+//#define STB_IMAGE_IMPLEMENTATION
+//#include <stb_image.h>
 
 bool Game::Init()
 {
 	auto& fs = eng::Engine::GetInstance().GetFileSystem();
-	auto path = fs.GetAssetsFolder()/"brick.png";
-	int width, height, channels;
-	unsigned char* data = stbi_load(path.string().c_str(), &width, &height, &channels, 0);
+	//auto path = fs.GetAssetsFolder()/"brick.png";
 
-	std::shared_ptr<eng::Texture> texture;
-	if (data)
-	{
-		texture = std::make_shared<eng::Texture>(width, height, channels, data);
-		std::cout << "Image succeed" << std::endl;
-		stbi_image_free(data);
-	}
+	//auto texture = eng::Texture::Load("texture/brick.png");
 
 	m_scene = new eng::Scene();
 
@@ -29,50 +21,8 @@ bool Game::Init()
 
 	m_scene->SetMainCamera(camera);
 	m_scene->CreateObject<TestObject>("TestObject");
-	
 
-	std::string vertexShaderSource = R"(
-		#version 330 core
-		layout(location=0)in vec3 position;
-		layout(location=1)in vec3 color;
-		layout(location=2)in vec2 uv;
-
-		uniform mat4 uModel;
-		uniform mat4 uView;
-		uniform mat4 uProjection;
-
-		out vec3 vColor;
-		out vec2 vUV;
-		void main()
-		{
-			vColor = color;
-			vUV = uv;
-			gl_Position = uProjection * uView * uModel * vec4(position,1.0);
-		}
-	)";
-	std::string fragmentShaderSource = R"(
-		#version 330 core
-		in vec3 vColor;
-		in vec2 vUV;
-		out vec4 FragColor;
-		
-		uniform sampler2D brick;
-		uniform vec4 uColor;
-		
-		void main()
-		{
-			vec4 texColor = texture(brick,vUV);
-			FragColor = texColor * vec4(vColor,1.0f);
-		}
-	)";
-
-	auto& graphicsAPI = eng::Engine::GetInstance().GetGraphicsAPI();
-	auto shaderProgram = graphicsAPI.CreateShaderProgram(vertexShaderSource, fragmentShaderSource);
-
-	auto material = std::make_shared<eng::Material>();
-	material->SetShaderProgram(shaderProgram);
-	material->SetParam("brick", texture);
-
+	auto material = eng::Material::Load("materials/brick.mat");
 
 	std::vector<float>vertices{
 		//Ç°Ãæ

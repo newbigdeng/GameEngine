@@ -1,4 +1,5 @@
 #include "FileSystem.h"
+#include <fstream>
 
 #include "config.h"
 
@@ -42,6 +43,34 @@ namespace eng
 			return path;
 #endif
 		return std::filesystem::weakly_canonical(GetExecutableFolder())/"assets";
+	}
+
+
+	std::vector<char> FileSystem::LoadFile(const std::filesystem::path& path)
+	{
+		std::ifstream file(path, std::ios::binary | std::ios::ate);//以二进制读取，指针读到末尾
+		if(!file.is_open())return {};
+
+		auto size = file.tellg();//返回当前读取指针的位置
+
+		file.seekg(0);//将读取指针移动到文件起始位置
+
+		std::vector<char>buffer(size);
+		
+		if (!file.read(buffer.data(), size))return {};//读取文件内容到缓冲区
+
+		return buffer;
+	}
+
+	std::vector<char> FileSystem::LoadAssetFile(const std::string& relativePath)
+	{
+		return LoadFile(GetAssetsFolder() / relativePath);
+	}
+
+	std::string FileSystem::LoadAssetFileText(const std::string& relativePath)
+	{
+		auto buffer = LoadAssetFile(relativePath);
+		return std::string(buffer.begin(),buffer.end());
 	}
 
 }

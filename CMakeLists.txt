@@ -19,6 +19,7 @@ include_directories(engine/source)
 
 include_directories(engine/ThirdParty/stb_image)
 
+
 include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_BINARY_DIR})
 
 target_link_libraries(${PROJECT_NAME}
