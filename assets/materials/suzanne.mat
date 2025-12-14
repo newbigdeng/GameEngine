@@ -1,0 +1,17 @@
+{
+	"shader":
+	{
+		"vertex":"shaders/vertex.glsl",
+		"fragment":"shaders/fragment.glsl"
+	},
+	"params":
+	{
+		"textures":
+		[
+			{
+				"name": "baseColor",
+				"path": "models/Suzanne_BaseColor.png"
+			}
+		]
+	}
+}

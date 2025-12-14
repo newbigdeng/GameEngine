@@ -2,6 +2,7 @@
 #include <string>
 #include <unordered_map>
 #include <glm\mat4x4.hpp>
+#include <glm\vec3.hpp>
 namespace eng
 {
 	class Texture;
@@ -20,6 +21,7 @@ namespace eng
 		void SetUniform(const std::string& name, float value);
 		void SetUniform(const std::string& name, float v0, float v1);
 		void SetUniform(const std::string& name, const glm::mat4& mat);
+		void SetUniform(const std::string& name, const glm::vec3& value);
 		void SetTexture(const std::string& name, Texture* texture);
 	private:
 		std::unordered_map<std::string, GLint>m_uniformLocationCache;

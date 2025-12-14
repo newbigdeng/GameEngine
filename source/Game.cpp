@@ -20,78 +20,11 @@ bool Game::Init()
 	camera->AddComponent(new eng::PlayerControllerCompnent);
 
 	m_scene->SetMainCamera(camera);
-	m_scene->CreateObject<TestObject>("TestObject");
+	//m_scene->CreateObject<TestObject>("TestObject");
 
 	auto material = eng::Material::Load("materials/brick.mat");
 
-	std::vector<float>vertices{
-		//前面
-		0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-	   -0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-	   -0.5f,-0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
-		0.5f,-0.5f, 0.5f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f,
-
-		//上面
-		0.5f, 0.5f,-0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-	   -0.5f, 0.5f,-0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-	   -0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
-		0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f,
-
-		//右面
-		0.5f, 0.5f,-0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-		0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-		0.5f,-0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
-		0.5f,-0.5f,-0.5f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f,
-
-		//左边
-		-0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-		-0.5f, 0.5f,-0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-		-0.5f,-0.5f,-0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
-		-0.5f,-0.5f, 0.5f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f,
-
-		//底部
-		0.5f,-0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-	   -0.5f,-0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-	   -0.5f,-0.5f,-0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
-		0.5f,-0.5f,-0.5f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f,
-
-		//后面
-	   -0.5f, 0.5f,-0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-		0.5f, 0.5f,-0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-	    0.5f,-0.5f,-0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
-	   -0.5f,-0.5f,-0.5f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f,
-	};
-	std::vector<unsigned int>indices{
-		//前面
-		0,1,2,
-		0,2,3,
-		//上面
-		4,5,6,
-		4,6,7,
-		//右面
-		8,9,10,
-		8,10,11,
-		//左面
-		12,13,14,
-		12,14,15,
-		//底面
-		16,17,18,
-		16,18,19,
-		//后面
-		20,21,22,
-		20,22,23
-	};
-	eng::VertexLayout layout;
-
-	//Position
-	layout.elements.push_back({ 0,3,GL_FLOAT,0 });
-	//color
-	layout.elements.push_back({ 1,3,GL_FLOAT,sizeof(float) * 3 });
-	//UV
-	layout.elements.push_back({ 2,2,GL_FLOAT,sizeof(float) * 6 });
-
-	layout.stride = sizeof(float) * 8;
-	auto mesh = std::make_shared<eng::Mesh>(layout, vertices, indices);
+	auto mesh = eng::Mesh::CreateCube();
 
 	auto ObjectA = m_scene->CreateObject("ObjectA");
 	ObjectA->AddComponent(new eng::MeshComponent(material, mesh));
@@ -108,7 +41,22 @@ bool Game::Init()
 	ObjectC->SetRotation(glm::quat(glm::vec3(1.0f, 0.0f, 1.0f)));
 	ObjectC->SetScale(glm::vec3(1.5f, 1.5f, 1.5f));
 
+	auto suzanneMesh = eng::Mesh::Load("models/Suzanne.gltf");
+	auto suzanneMaterial = eng::Material::Load("materials/suzanne.mat");
+
+	auto SuzanneObj = m_scene->CreateObject("Suznana");
+	SuzanneObj->AddComponent(new eng::MeshComponent(suzanneMaterial, suzanneMesh));
+	SuzanneObj->SetPosition(glm::vec3(0.0f, 0.0f, -2.0f));
+
+	auto light = m_scene->CreateObject("Light");
+	auto lightComp = new eng::LightComponent();
+	lightComp->SetColor(glm::vec3(1.0f, 1.0f, 1.0f));
+	light->AddComponent(lightComp);
+	light->SetPosition(glm::vec3(0.0f, 3.0f, 0.0f));
+
+
 	eng::Engine::GetInstance().SetScene(m_scene);
+
 	return true;
 }
 

@@ -56,13 +56,14 @@ namespace eng
 
 	std::shared_ptr<Material> Material::Load(const std::string& path)
 	{
-		auto contents = Engine::GetInstance().GetFileSystem().LoadAssetFileText(path);
+		auto contents = Engine::GetInstance().GetFileSystem().LoadAssetFileText(path);//获取.mat文件
 		if(contents.empty())
 			return nullptr;
-		nlohmann::json json = nlohmann::json::parse(contents);
+		nlohmann::json json = nlohmann::json::parse(contents);//解析json
+
 		std::shared_ptr<Material> result;
 
-		if (json.contains("shader"))
+		if (json.contains("shader"))//设定着色器代码
 		{
 			auto shaderObj = json["shader"];
 			std::string vertexPath = shaderObj.value("vertex", "");
@@ -79,7 +80,7 @@ namespace eng
 			result->SetShaderProgram(shaderProgram);
 		}
 
-		if (json.contains("params"))
+		if (json.contains("params"))//给uniform设置数值
 		{
 			auto paramsobj = json["params"];
 

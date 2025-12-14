@@ -1,6 +1,8 @@
 #pragma once
 #include <glad/glad.h>
 #include "graphics\VertexLayout.h"
+#include <memory>
+#include <string>
 
 namespace eng
 {
@@ -12,9 +14,11 @@ namespace eng
 		Mesh(const Mesh&) = delete;
 		Mesh& operator=(const Mesh&) = delete;
 
-
 		void Bind();
 		void Draw();
+
+		static std::shared_ptr<Mesh> CreateCube();
+		static std::shared_ptr<Mesh> Load(const std::string& path);
 	private:
 		VertexLayout m_vertexLayout;//存储在GPU缓存里的几何体
 		

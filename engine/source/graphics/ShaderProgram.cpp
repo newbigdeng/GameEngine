@@ -44,6 +44,12 @@ namespace eng
 		glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(mat));
 	}
 
+	void ShaderProgram::SetUniform(const std::string& name, const glm::vec3& value)
+	{
+		auto loc = GetUniformLocation(name);
+		glUniform3fv(loc, 1, glm::value_ptr(value));
+	}
+
 	void ShaderProgram::SetTexture(const std::string& name, Texture* texture)
 	{
 		auto loc = GetUniformLocation(name);

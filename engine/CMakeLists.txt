@@ -41,10 +41,13 @@ set(PROJECT_SOURCE_FILES
     source/scene/components/CameraComponent.cpp
     source/scene/components/PlayerControllerComponent.h
     source/scene/components/PlayerControllerComponent.cpp
+    source/scene/components/LightComponent.h
+    source/scene/components/LightComponent.cpp
     source/io/FileSystem.h
     source/io/FileSystem.cpp
     source/graphics/Texture.h
     source/graphics/Texture.cpp
+    source/Common.h
 )
 
 include_directories(source)
@@ -63,6 +66,7 @@ set(GLFW_LIB_FULL_PATH "${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/GLFW/lib/glfw3.li
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/stb_image)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/json)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/cgltf)
 
 target_include_directories(${PROJECT_NAME} 
     PUBLIC "${GLFW_INCLUDE_DIR}"

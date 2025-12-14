@@ -33,7 +33,7 @@ namespace eng
 			return nullptr;
 		}
 
-
+		glm::vec3 GetWorldPosition() const;
 		const glm::vec3& GetPosition() const;
 		void SetPosition(glm::vec3& pos);
 

@@ -1,5 +1,6 @@
 #include "inputManager.h"
 
+
 namespace eng
 {
 	void inputManager::SetKeyPressed(int key, bool pressed)
