@@ -66,6 +66,75 @@ namespace eng
 		return std::make_shared<ShaderProgram>(ShaderProgramID);
 	}
 
+	const std::shared_ptr<ShaderProgram>& GraphicsAPI::GetDefaultShaderProgram()
+	{
+		if (!m_defaultShaderProgram)
+		{
+			std::string vertexShaderSource = R"(
+				#version 330 core
+				layout(location = 0)in vec3 position;
+				layout(location = 1)in vec3 color;
+				layout(location = 2)in vec2 uv;
+				layout(location = 3)in vec3 normal;
+
+				uniform mat4 uModel;
+				uniform mat4 uView;
+				uniform mat4 uProjection;
+
+				//out vec3 vColor;
+				out vec2 vUV;
+				out vec3 vNormal;
+				out vec3 vFragPos;
+				void main()
+				{
+					//vColor = color;
+					vUV = uv;
+
+					vFragPos = vec3(uModel * vec4(position, 1.0));
+					vNormal = mat3(transpose(inverse(uModel))) * normal;
+
+					gl_Position = uProjection * uView * uModel * vec4(position, 1.0);
+				}
+			)";
+			std::string fragmentShaderSource = R"(
+				#version 330 core
+				//in vec3 vColor;
+				in vec2 vUV;
+				in vec3 vNormal;
+				in vec3 vFragPos;
+				out vec4 FragColor;
+
+				struct Light
+				{
+					vec3 color;
+					vec3 position;
+				};
+				uniform Light uLight;
+
+				uniform sampler2D brick;
+				uniform sampler2D baseColor;
+				uniform vec4 uColor;
+
+				void main()
+				{
+					vec3 norm = normalize(vNormal);
+					vec3 lightDir = normalize(uLight.position - vFragPos);
+
+					float diff = max(dot(norm, lightDir),0.0f);
+					vec3 diffuse = diff * uLight.color;
+
+					vec4 texColor = texture(baseColor, vUV);
+					//FragColor = texColor * vec4(vColor, 1.0f);
+					FragColor = texColor * vec4(diffuse,1.0f);
+				}
+			)";
+			//Ä¬ÈÏ×ÅÉ«Æ÷
+			m_defaultShaderProgram = CreateShaderProgram(vertexShaderSource, fragmentShaderSource);
+		}
+
+		return m_defaultShaderProgram;
+	}
+
 	GLuint GraphicsAPI::CreateVertexBuffer(const std::vector<float> vertices)
 	{
 		GLuint vbo = 0;

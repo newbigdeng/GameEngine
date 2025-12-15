@@ -24,7 +24,6 @@ namespace eng
 				auto light = lightData[0];
 				shaderProgram->SetUniform("uLight.color", light.color);
 				shaderProgram->SetUniform("uLight.position", light.position);
-
 			}
 
 

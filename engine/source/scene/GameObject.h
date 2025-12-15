@@ -9,6 +9,7 @@
 
 namespace eng
 {
+	class Scene;
 	class GameObject
 	{
 	public:
@@ -16,6 +17,8 @@ namespace eng
 		virtual void Update(float deltaTime);
 		const std::string GetName() const;
 		void SetName(std::string name);
+		bool SetParent(GameObject* parent);
+		Scene* GetScene();
 		GameObject* GetParent();
 		bool IsAlive() const;
 		void MarkForDestory();
@@ -46,11 +49,13 @@ namespace eng
 		glm::mat4 GetLocalTransform() const;
 		glm::mat4 GetWorldTransform() const;
 
+		static GameObject* LoadGLTF(const std::string& folder);
 	protected:
 		GameObject() = default;
 	private:
 		std::string m_name;
 		GameObject* m_parent = nullptr;
+		Scene* m_scene = nullptr;
 		std::vector<std::unique_ptr<GameObject>>m_children;
 		std::vector<std::unique_ptr<Component>>m_components;
 
