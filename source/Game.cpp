@@ -48,8 +48,13 @@ bool Game::Init()
 	//auto SuzanneObj = m_scene->CreateObject("Suznana");
 	//SuzanneObj->AddComponent(new eng::MeshComponent(suzanneMaterial, suzanneMesh));
 	//SuzanneObj->SetPosition(glm::vec3(0.0f, 0.0f, -2.0f));
-	auto suzanne = eng::GameObject::LoadGLTF("models/Suzanne.gltf");
+	auto suzanne = eng::GameObject::LoadGLTF("models/suzanne/Suzanne.gltf");
 	suzanne->SetPosition(glm::vec3(0.0f, 0.0f, -2.0f));
+
+	auto gun = eng::GameObject::LoadGLTF("models/sten_gunmachine_carbine/scene.gltf");
+	gun->SetParent(camera);
+	gun->SetPosition(glm::vec3(0.75f, -0.5f, -0.75f));
+	gun->SetScale(glm::vec3(-1.0f, 1.0f, 1.0f));
 
 	auto light = m_scene->CreateObject("Light");
 	auto lightComp = new eng::LightComponent();

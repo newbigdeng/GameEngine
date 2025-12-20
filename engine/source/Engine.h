@@ -3,6 +3,7 @@
 #include <chrono>
 #include "input\inputManager.h"
 #include "graphics\GraphicsAPI.h"
+#include "graphics\Texture.h"
 #include "render\RenderQueue.h"
 #include "scene\Scene.h"
 #include "io\FileSystem.h"
@@ -34,6 +35,7 @@ namespace eng
         GraphicsAPI& GetGraphicsAPI();
         RenderQueue& GetRenderQueue();
         FileSystem& GetFileSystem();
+        TextureManager& GetTextureManager();
 
         void SetScene(Scene* scene);
         Scene* GetScene();
@@ -43,6 +45,7 @@ namespace eng
         GLFWwindow* m_window = nullptr;
         inputManager m_inputManager;
         GraphicsAPI m_graphicsAPI;
+        TextureManager m_textureManager;
         RenderQueue m_renderQueue;
         FileSystem m_fileSystem;
         std::unique_ptr<Scene>m_currentScene;

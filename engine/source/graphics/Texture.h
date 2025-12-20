@@ -3,6 +3,7 @@
 #include <glad\glad.h>
 #include <memory>
 #include <string>
+#include <unordered_map>
 
 namespace eng
 {
@@ -21,5 +22,13 @@ namespace eng
 		int m_numChannels = 0;
 
 		GLuint m_textureID = 0;
+	};
+
+	class TextureManager
+	{
+	public:
+		std::shared_ptr<Texture> GetOrLoadTexture(std::string& path);
+	private:
+		std::unordered_map<std::string, std::shared_ptr<Texture>>m_textures;
 	};
 }
