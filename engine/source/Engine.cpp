@@ -51,6 +51,7 @@ namespace eng
 
 	bool Engine::Init(int width, int height)
 	{
+		IsDebug = false;
 		if (!m_application)
 		{
 			return false;
@@ -58,7 +59,7 @@ namespace eng
 
 		if (!glfwInit())
 		{
-			return -1;
+			return false;
 		}
 
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -71,7 +72,7 @@ namespace eng
 		{
 			std::cout << "Fail To Create Window" << std::endl;
 			glfwTerminate();
-			return -1;
+			return false;
 		}
 		glfwMakeContextCurrent(m_window);
 
@@ -80,10 +81,16 @@ namespace eng
 		glfwSetCursorPosCallback(m_window, CurosrPositionCallBack);
 
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-			return -1;
+			return false;
 
-		m_graphicsAPI.Init();
-		return m_application->Init();
+		if(!m_graphicsAPI.Init())return false;
+		//if (IsDebug)
+		//{
+			//m_imgui = std::make_unique<MyImGui>(m_window, "#version 330 core");
+			//if (!m_imgui->Init())return false;
+		//}
+		return true;
+		
 	}
 
 	void Engine::Run()
@@ -96,12 +103,16 @@ namespace eng
 		m_lastTimePoint = std::chrono::high_resolution_clock::now();
 		while (!glfwWindowShouldClose(m_window)&&!m_application->NeedsToBeClosed())
 		{
-			glfwPollEvents();//处理事件
-
-
+			glfwPollEvents();//处理输入事件
+			
 			auto now = std::chrono::high_resolution_clock::now();
 			float deltaTime = std::chrono::duration<float>(now - m_lastTimePoint).count();
 			m_lastTimePoint = now;
+			//处理imgui事件
+			if (IsDebug)
+			{
+				//m_imgui->Update(deltaTime);
+			}
 
 			m_application->Update(deltaTime);
 
@@ -133,13 +144,29 @@ namespace eng
 
 			m_renderQueue.Draw(m_graphicsAPI,cameraData,lights);
 
+			//进行imgui渲染
+			if (IsDebug)
+			{
+				//m_imgui->Render();
+			}
+
 			glfwSwapBuffers(m_window);
 
 			m_inputManager.SetMousePositionOld(m_inputManager.GetMousePositionCurrent());
+
 		}
 	}
 	void Engine::Destory()
 	{
+		if (IsDebug)
+		{
+			//if (m_imgui)
+			//{
+				//销毁ImGui
+				//m_imgui->Close();
+				//m_imgui.reset();
+			//}
+		}
 		if (m_application)
 		{
 			m_application->Destory();

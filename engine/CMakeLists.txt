@@ -16,6 +16,8 @@ set(PROJECT_SOURCE_FILES
     source/Engine.cpp
     source/Application.h
     source/Application.cpp
+    source/debug/MyImGui.h
+    source/debug/MyImGui.cpp
     source/glad.c
     source/input/inputManager.h
     source/input/inputManager.cpp
@@ -43,6 +45,8 @@ set(PROJECT_SOURCE_FILES
     source/scene/components/PlayerControllerComponent.cpp
     source/scene/components/LightComponent.h
     source/scene/components/LightComponent.cpp
+    source/scene/components/AnimationComponent.h
+    source/scene/components/AnimationComponent.cpp
     source/io/FileSystem.h
     source/io/FileSystem.cpp
     source/graphics/Texture.h
@@ -51,7 +55,26 @@ set(PROJECT_SOURCE_FILES
 )
 
 include_directories(source)
-add_library(${PROJECT_NAME} ${PROJECT_SOURCE_FILES})
+
+
+# 添加ImGui
+set(IMGUI_DIR "${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/imgui")
+set(IMGUI_SOURCES
+    ${IMGUI_DIR}/imgui.cpp
+    ${IMGUI_DIR}/imgui_draw.cpp
+    ${IMGUI_DIR}/imgui_tables.cpp
+    ${IMGUI_DIR}/imgui_widgets.cpp
+    ${IMGUI_DIR}/imgui_demo.cpp
+
+    ${IMGUI_DIR}/backends/imgui_impl_glfw.cpp
+    ${IMGUI_DIR}/backends/imgui_impl_opengl3.cpp
+)
+include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/imgui
+    ${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/imgui/backends
+)
+
+add_library(${PROJECT_NAME} ${PROJECT_SOURCE_FILES} ${IMGUI_SOURCES})
 
 # 添加GLFW库
 set(GLFW_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/GLFW/include")

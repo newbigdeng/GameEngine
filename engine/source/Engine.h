@@ -7,6 +7,7 @@
 #include "render\RenderQueue.h"
 #include "scene\Scene.h"
 #include "io\FileSystem.h"
+#include "debug\MyImGui.h"
 
 struct GLFWwindow;
 
@@ -49,5 +50,8 @@ namespace eng
         RenderQueue m_renderQueue;
         FileSystem m_fileSystem;
         std::unique_ptr<Scene>m_currentScene;
+
+        bool IsDebug = true;
+        std::unique_ptr<MyImGui>m_imgui;
     };
 }
