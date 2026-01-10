@@ -7,6 +7,10 @@
 #include "GLFW/glfw3.h"
 #include <iostream>
 
+#include <imgui.h>
+#include <imgui_impl_glfw.h>
+#include <imgui_impl_opengl3.h>
+
 namespace eng
 {
 	void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int modes)
@@ -82,7 +86,11 @@ namespace eng
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 			return -1;
 
-		m_graphicsAPI.Init();
+		if (!m_graphicsAPI.Init())return false;
+
+		m_gui = std::make_unique<MyImGui>(m_window, "#version 330 core");
+		if (!m_gui->Init())return false;
+
 		return m_application->Init();
 	}
 
@@ -93,17 +101,19 @@ namespace eng
 			return;
 		}
 
+
 		m_lastTimePoint = std::chrono::high_resolution_clock::now();
 		while (!glfwWindowShouldClose(m_window)&&!m_application->NeedsToBeClosed())
 		{
-			glfwPollEvents();//处理事件
-
+			glfwPollEvents();//处理输入事件
+			
 
 			auto now = std::chrono::high_resolution_clock::now();
 			float deltaTime = std::chrono::duration<float>(now - m_lastTimePoint).count();
 			m_lastTimePoint = now;
 
 			m_application->Update(deltaTime);
+			m_gui->Update(deltaTime);
 
 			m_graphicsAPI.SetClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 			m_graphicsAPI.ClearBuffers();
@@ -133,6 +143,7 @@ namespace eng
 
 			m_renderQueue.Draw(m_graphicsAPI,cameraData,lights);
 
+			m_gui->Render();
 			glfwSwapBuffers(m_window);
 
 			m_inputManager.SetMousePositionOld(m_inputManager.GetMousePositionCurrent());
@@ -140,6 +151,11 @@ namespace eng
 	}
 	void Engine::Destory()
 	{
+		if (m_gui)
+		{
+			m_gui->Close();
+			m_gui.reset();
+		}
 		if (m_application)
 		{
 			m_application->Destory();
@@ -174,6 +190,10 @@ namespace eng
 	TextureManager& Engine::GetTextureManager()
 	{
 		return m_textureManager;
+	}
+	MyImGui* Engine::GetGui()
+	{
+		return m_gui.get();
 	}
 	void Engine::SetScene(Scene* scene)
 	{

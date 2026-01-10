@@ -16,6 +16,8 @@ set(PROJECT_SOURCE_FILES
     source/Engine.cpp
     source/Application.h
     source/Application.cpp
+    source/gui/Gui.h
+    source/gui/Gui.cpp
     source/glad.c
     source/input/inputManager.h
     source/input/inputManager.cpp
@@ -53,7 +55,26 @@ set(PROJECT_SOURCE_FILES
 )
 
 include_directories(source)
-add_library(${PROJECT_NAME} ${PROJECT_SOURCE_FILES})
+
+
+# 添加ImGui
+set(IMGUI_DIR "${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/imgui")
+set(IMGUI_SOURCES
+    ${IMGUI_DIR}/imgui.cpp
+    ${IMGUI_DIR}/imgui_draw.cpp
+    ${IMGUI_DIR}/imgui_tables.cpp
+    ${IMGUI_DIR}/imgui_widgets.cpp
+    ${IMGUI_DIR}/imgui_demo.cpp
+
+    ${IMGUI_DIR}/backends/imgui_impl_glfw.cpp
+    ${IMGUI_DIR}/backends/imgui_impl_opengl3.cpp
+)
+include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/imgui
+    ${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/imgui/backends
+)
+
+add_library(${PROJECT_NAME} ${PROJECT_SOURCE_FILES} ${IMGUI_SOURCES})
 
 # 添加GLFW库
 set(GLFW_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/GLFW/include")
@@ -98,4 +119,3 @@ elseif(APPLE)
     find_library(OPENGL_FRAMEWORK OpenGL)
     target_link_libraries(Game PRIVATE ${OPENGL_FRAMEWORK})
 endif()
-

@@ -7,6 +7,7 @@
 #include "render\RenderQueue.h"
 #include "scene\Scene.h"
 #include "io\FileSystem.h"
+#include "gui\Gui.h"
 
 struct GLFWwindow;
 
@@ -36,6 +37,7 @@ namespace eng
         RenderQueue& GetRenderQueue();
         FileSystem& GetFileSystem();
         TextureManager& GetTextureManager();
+        MyImGui* GetGui();
 
         void SetScene(Scene* scene);
         Scene* GetScene();
@@ -49,5 +51,7 @@ namespace eng
         RenderQueue m_renderQueue;
         FileSystem m_fileSystem;
         std::unique_ptr<Scene>m_currentScene;
+
+        std::unique_ptr<MyImGui> m_gui;
     };
 }
