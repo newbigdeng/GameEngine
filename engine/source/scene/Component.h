@@ -7,6 +7,7 @@ namespace eng
 	{
 	public:
 		virtual ~Component() = default;
+		virtual void Init();
 		virtual void Update(float deltaTime);
 		virtual size_t GetTypeId() const = 0;
 

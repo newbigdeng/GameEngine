@@ -1,4 +1,5 @@
 ﻿#include "Engine.h"
+#include "Engine.h"
 #include "Application.h"
 #include "scene\Component.h"
 #include "scene\GameObject.h"
@@ -87,6 +88,7 @@ namespace eng
 			return -1;
 
 		if (!m_graphicsAPI.Init())return false;
+		m_physicsManager.Init();
 
 		m_gui = std::make_unique<MyImGui>(m_window, "#version 330 core");
 		if (!m_gui->Init())return false;
@@ -112,6 +114,7 @@ namespace eng
 			float deltaTime = std::chrono::duration<float>(now - m_lastTimePoint).count();
 			m_lastTimePoint = now;
 
+			m_physicsManager.Update(deltaTime);
 			m_application->Update(deltaTime);
 			m_gui->Update(deltaTime);
 
@@ -123,6 +126,12 @@ namespace eng
 
 			int width = 0, height = 0;
 			glfwGetWindowSize(m_window, &width, &height);
+
+			//防止最小化退出
+
+			width = std::max(width, 1);
+			height = std::max(height, 1);
+
 			float aspect = static_cast<float>(width) / static_cast<float>(height);
 			if (m_currentScene)
 			{
@@ -190,6 +199,10 @@ namespace eng
 	TextureManager& Engine::GetTextureManager()
 	{
 		return m_textureManager;
+	}
+	PhysicsManager& Engine::GetPhysicsManager()
+	{
+		return m_physicsManager;
 	}
 	MyImGui* Engine::GetGui()
 	{

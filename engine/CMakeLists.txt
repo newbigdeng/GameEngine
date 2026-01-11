@@ -47,11 +47,19 @@ set(PROJECT_SOURCE_FILES
     source/scene/components/LightComponent.cpp
     source/scene/components/AnimationComponent.h
     source/scene/components/AnimationComponent.cpp
+    source/scene/components/PhysicsComponent.h
+    source/scene/components/PhysicsComponent.cpp
     source/io/FileSystem.h
     source/io/FileSystem.cpp
     source/graphics/Texture.h
     source/graphics/Texture.cpp
     source/Common.h
+    source/physics/Collider.h
+    source/physics/Collider.cpp
+    source/physics/PhysicsManager.h
+    source/physics/PhysicsManager.cpp
+    source/physics/RigidBody.h
+    source/physics/RigidBody.cpp
 )
 
 include_directories(source)
@@ -91,11 +99,22 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/stb_image)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/json)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/cgltf)
 
+# Include Bullet as a 子系统
+option(BUILD_UNIT_TESTS OFF)
+option(BUILD_BULLET2_DEMOS OFF)
+option(BUILD_EXTRAS OFF)
+option(BUILD_SHARED_LIBS OFF)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/bullet)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/bullet/src)
+
 target_include_directories(${PROJECT_NAME} 
     PUBLIC "${GLFW_INCLUDE_DIR}"
 )
 target_link_libraries(${PROJECT_NAME} 
     PRIVATE ${GLFW_LIB_FULL_PATH}
+    LinearMath
+    BulletCollision
+    BulletDynamics
 )
 
 target_include_directories(${PROJECT_NAME}

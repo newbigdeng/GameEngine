@@ -17,5 +17,7 @@
 #include "scene\Components\PlayerControllerComponent.h"
 #include "scene\Components\LightComponent.h"
 #include "scene\Components\AnimationComponent.h"
+#include "scene\Components\PhysicsComponent.h"
 #include "io/FileSystem.h"
 #include "graphics\Texture.h"
+#include "physics\PhysicsManager.h"

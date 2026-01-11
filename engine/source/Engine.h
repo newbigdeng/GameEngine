@@ -8,6 +8,7 @@
 #include "scene\Scene.h"
 #include "io\FileSystem.h"
 #include "gui\Gui.h"
+#include "physics\PhysicsManager.h"
 
 struct GLFWwindow;
 
@@ -37,6 +38,8 @@ namespace eng
         RenderQueue& GetRenderQueue();
         FileSystem& GetFileSystem();
         TextureManager& GetTextureManager();
+        PhysicsManager& GetPhysicsManager();
+
         MyImGui* GetGui();
 
         void SetScene(Scene* scene);
@@ -50,6 +53,7 @@ namespace eng
         TextureManager m_textureManager;
         RenderQueue m_renderQueue;
         FileSystem m_fileSystem;
+        PhysicsManager m_physicsManager;
         std::unique_ptr<Scene>m_currentScene;
 
         std::unique_ptr<MyImGui> m_gui;

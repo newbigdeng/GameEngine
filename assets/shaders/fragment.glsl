@@ -20,6 +20,8 @@ uniform vec4 uColor;
 
 void main()
 {
+	vec3 ambient = vec3(0.18f);
+
 	vec3 norm = normalize(vNormal);
 	vec3 lightDir = normalize(uLight.position - vFragPos);
 
@@ -33,7 +35,7 @@ void main()
 	float specularStrength = 0.5;
 	vec3 specular = spec * specularStrength * uLight.color;
 
-	vec3 result = diffuse + specular;
+	vec3 result = ambient + diffuse + specular;
 
 	vec4 texColor = texture(baseColor, vUV);
 	//FragColor = texColor * vec4(vColor, 1.0f);

@@ -7,6 +7,7 @@ int main()
 	eng::Engine& engine = eng::Engine::GetInstance();
 	engine.SetApplication(game);
 
+
 	if (engine.Init(1280,960))
 	{
 		engine.Run();
